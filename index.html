@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recrutement – Brigade Municipale</title>
+
+  <style>
+    :root {
+      --blue: #0a3d62;
+      --dark: #0e1116;
+      --light: #ffffff;
+      --accent: #1e90ff;
+      --card-dark: rgba(255,255,255,0.06);
+      --card-light: rgba(0,0,0,0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: var(--dark);
+      color: var(--light);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+      user-select: none;
+    }
+
+    body.light {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    /* Canvas neige réaliste (anti-flash) */
+    canvas#snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--blue), #05223a);
+      padding: 2.8rem 1rem 2.2rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo img {
+      height: 58px;
+      width: auto;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin-bottom: 0.6rem;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      opacity: 0.95;
+    }
+
+    .top-actions {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .action-btn {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.28);
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .action-btn:hover {
+      background: rgba(255,255,255,0.22);
+      transform: translateY(-1px);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2.6rem auto;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 1.7rem;
+    }
+
+    section {
+      background: var(--card-dark);
+      border-radius: 18px;
+      padding: 1.7rem 1.7rem;
+      backdrop-filter: blur(6px);
+    }
+
+    body.light section {
+      background: var(--card-light);
+    }
+
+    section h2 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-size: 1.35rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 0.6rem;
+    }
+
+    section p {
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.75rem;
+    }
+
+    ul li {
+      background: rgba(0,0,0,0.32);
+      padding: 0.75rem 0.95rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      border-left: 3px solid var(--accent);
+    }
+
+    body.light ul li {
+      background: rgba(255,255,255,0.9);
+    }
+
+    .discord {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.8rem;
+    }
+
+    .discord-btn {
+      background: linear-gradient(135deg, #5865F2, #4752c4);
+      color: #fff;
+      border: none;
+      padding: 0.95rem 1.8rem;
+      border-radius: 14px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .discord-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.45);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.85rem;
+      opacity: 0.8;
+      z-index: 2;
+      position: relative;
+    }
+
+    @media (max-width: 600px) {
+      .logo {
+        position: static;
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+
+      .top-actions {
+        position: static;
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;">
+  <canvas id="snowCanvas"></canvas>
+
+  <header>
+    <div class="logo">
+      <img src="https://i.imgur.com/mXS0oZA.png" alt="Logo Brigade Municipale">
+    </div>
+
+    <div class="top-actions">
+      <button class="action-btn" onclick="toggleTheme()">Mode clair / sombre</button>
+    </div>
+
+    <h1>Recrutement – Brigade Municipale</h1>
+    <p>Servir et protéger la République Française</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Présentation générale</h2>
+      <p>
+        La <strong>Brigade Municipale de Paris</strong> recrute des <strong>hommes et des femmes volontaires</strong>
+        souhaitant s'engager au service de la population et de la République Française.
+        <br /><br />
+        Aucun quota précis d'heures de service n'est imposé. Un <strong>minimum d'investissement personnel</strong>
+        est néanmoins requis afin d'assurer un service sérieux, professionnel et cohérent.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nos missions</h2>
+      <ul>
+        <li>Maintien de l’ordre public : surveillance de la voie publique et prévention des troubles.</li>
+        <li>Sécurité des personnes et des biens : patrouilles, sécurisation d’événements et protection des infrastructures.</li>
+        <li>Prévention et proximité : dialogue avec les citoyens et actions de sensibilisation.</li>
+        <li>Assistance à la population : aide aux personnes en difficulté et participation aux dispositifs de secours.</li>
+        <li>Coopération interservices : coordination avec les services et forces de sécurité compétentes.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Spécialités opérationnelles</h2>
+      <ul>
+        <li>Section de Recherche Municipale (SRM)</li>
+        <li>Brigade Motorisée (BMO)</li>
+        <li>Groupe de Soutien et d'Intervention (GSI)</li>
+        <li>Unité Cynophile (Cyno)</li>
+        <li>Brigade Nautique (Maritime)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Qualifications judiciaires</h2>
+      <ul>
+        <li>OPJ – Officier de Police Judiciaire</li>
+        <li>APJ – Agent de Police Judiciaire</li>
+        <li>APJA – Agent de Police Judiciaire Adjoint</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Unités et pôles internes</h2>
+      <ul>
+        <li>Pôle de Recrutement</li>
+        <li>Pôle du Tutorat</li>
+        <li>Membre de l'Amical</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Avantages</h2>
+      <ul>
+        <li>Primes d'entrée attractives</li>
+        <li>Garage personnel au poste de police</li>
+        <li>Salaire attractif avec prime mensuelle</li>
+        <li>Véhicule civil fourni pour les trajets domicile / travail*</li>
+        <li>Missions variées et enrichissantes</li>
+        <li>Esprit d'équipe et ambiance familiale</li>
+        <li>Évolution de carrière rapide</li>
+      </ul>
+    </section>
+
+    <div class="discord">
+      <a href="https://discord.gg/b9WmP9FZsE" target="_blank">
+        <button class="discord-btn">Rejoindre notre Discord</button>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 - Brigade Municipale – Recrutement - FRRP FiveM 
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'c')) {
+        e.preventDefault();
+      }
+    });
+
+    // Neige canvas fluide (requestAnimationFrame, sans flash)
+    const canvas = document.getElementById('snowCanvas');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const flakes = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    for (let i = 0; i < 160; i++) {
+      flakes.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2.5 + 1,
+        d: Math.random() * 1.2 + 0.6
+      });
+    }
+
+    function drawSnow() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(255,255,255,0.75)';
+      ctx.beginPath();
+      for (const f of flakes) {
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+      }
+      ctx.fill();
+
+      for (const f of flakes) {
+        f.y += f.d;
+        f.x += Math.sin(f.y * 0.01) * 0.6;
+        if (f.y > h) {
+          f.y = -5;
+          f.x = Math.random() * w;
+        }
+      }
+      requestAnimationFrame(drawSnow);
+    }
+
+    drawSnow();
+  </script>
+</body>
+</html>
