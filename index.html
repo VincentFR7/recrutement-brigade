@@ -3,305 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recrutement – Brigade Municipale</title>
+<title>Maintenance – Brigade Municipale</title>
+
+<meta name="description" content="Le site officiel de la Brigade Municipale est actuellement en maintenance.">
+<meta name="theme-color" content="#0a3d62">
 
 <style>
-:root {
-  --dark: #0b0f14;
-  --light: #ffffff;
-  --blue: #0a3d62;
-  --blue-soft: #1e90ff;
-  --card-dark: rgba(255,255,255,0.07);
-  --card-light: rgba(0,0,0,0.06);
+:root{
+  --blue:#0a3d62;
+  --accent:#1e90ff;
+  --dark:#0b0f14;
+  --light:#ffffff;
+  --glass:rgba(255,255,255,0.08);
 }
 
-/* Reset & Body */
-* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", Arial, sans-serif; }
-body { background: var(--dark); color: var(--light); min-height:100vh; overflow-x:hidden; user-select:none; transition: background 0.3s, color 0.3s; }
-body.light { background: var(--light); color: var(--dark); }
-
-/* Loader */
-#loader {
-  position: fixed;
-  inset: 0;
-  background: var(--blue);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  perspective: 600px;
-}
-#loader img {
-  width: 150px;
-  height: 150px;
-  animation: spinHorizontal 2.5s linear infinite;
-}
-@keyframes spinHorizontal {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI",Arial,sans-serif;
 }
 
-/* Neige */
-#snowCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
-
-/* Bandeau fêtes */
-.festive-banner {
-  background: linear-gradient(90deg, #0a3d62, #1e90ff);
-  text-align: center;
-  padding: 0.45rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  z-index: 3;
-  position: relative;
-}
-
-/* Header */
-header {
-  background: linear-gradient(135deg, var(--blue), #05223a);
-  padding: 3.2rem 1rem 2.5rem;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
-.logo { position: absolute; top:1rem; left:1rem; }
-.logo img { height: 58px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6)); }
-.top-actions { position: absolute; top:1rem; right:1rem; }
-.action-btn {
-  background: rgba(255,255,255,0.18);
-  border: 1px solid rgba(255,255,255,0.35);
-  color: #fff;
-  padding: 0.45rem 0.9rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-}
-header h1 { font-size: clamp(1.9rem, 4vw, 3rem); margin-bottom: 0.6rem; }
-header p { opacity:0.95; }
-
-/* Main */
-main { max-width: 1200px; margin: 2.5rem auto; padding:0 1rem; display:grid; gap:1.8rem; position:relative; z-index:2; }
-
-section {
-  background: var(--card-dark);
-  border-radius:20px;
-  padding:1.7rem;
-  border-left:4px solid var(--blue-soft);
-  backdrop-filter: blur(6px);
-  opacity:0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-body.light section { background: var(--card-light); }
-section.visible { opacity:1; transform:translateY(0); }
-section h2 { color: var(--blue-soft); margin-bottom:1rem; font-size:1.35rem; }
-section p, section li { line-height:1.65; font-size:0.95rem; }
-
-/* Liste hover */
-ul { list-style:none; display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:0.75rem; }
-ul li {
-  background: rgba(0,0,0,0.32);
-  padding:0.75rem 0.9rem;
-  border-radius:10px;
-  font-size:0.92rem;
-  border-left:3px solid var(--blue-soft);
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-ul li:hover { transform: translateY(-5px); background: rgba(0,0,0,0.5); }
-body.light ul li { background: rgba(255,255,255,0.9); }
-
-/* Discord */
-.discord { display:flex; justify-content:center; margin-top:1.8rem; }
-.discord-btn {
-  background: linear-gradient(135deg, #5865F2, #4752c4);
-  color:#fff;
-  padding:1rem 2rem;
-  border-radius:16px;
-  font-size:1rem;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-  box-shadow:0 10px 26px rgba(0,0,0,0.45);
-}
-
-/* Compteur places */
-#available-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap:0.5rem;
-  font-size:1.2rem;
-  font-weight:700;
-  padding:1rem;
-  background: rgba(255,255,255,0.1);
-  border-radius:12px;
-  max-width:300px;
-  margin:0 auto;
-  border-left:4px solid var(--blue-soft);
-}
-#available { color: var(--blue-soft); }
-
-/* Chiffres attractifs */
-.stats { display:flex; justify-content:center; gap:2rem; margin:2rem 0; flex-wrap:wrap; }
-.stat-card {
-  background: rgba(255,255,255,0.07);
-  backdrop-filter: blur(6px);
-  border-radius: 20px;
-  padding:1.5rem 2rem;
+/* BODY */
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top, rgba(30,144,255,.18), transparent 55%),
+    linear-gradient(135deg, #05223a, var(--dark));
+  color:var(--light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  min-width:150px;
-  transition: transform 0.3s ease;
+  user-select:none;
 }
-.stat-card:hover { transform: scale(1.05); }
-.stat-card h3 { font-size:2rem; color: var(--blue-soft); margin-bottom:0.5rem; }
-.stat-card p { font-size:0.95rem; }
 
-/* Footer */
-footer { text-align:center; padding:2rem 1rem; font-size:0.85rem; opacity:0.85; z-index:2; position:relative; }
+/* CONTENEUR */
+.wrapper{
+  max-width:560px;
+  width:92%;
+  padding:3rem 2.4rem;
+  background:var(--glass);
+  border-radius:22px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 30px 60px rgba(0,0,0,.55);
+  animation:fadeIn .8s ease;
+}
 
-/* Responsive */
-@media (max-width: 600px) { .logo, .top-actions { position: static; margin-bottom: 1rem; } }
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(15px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* LOGO */
+.logo img{
+  height:86px;
+  margin-bottom:1.2rem;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.6));
+}
+
+/* TEXTES */
+h1{font-size:2rem;font-weight:700;margin-bottom:.4rem;}
+h2{font-size:1.25rem;font-weight:500;opacity:.95;margin-bottom:1.2rem;}
+.divider{
+  width:60px;
+  height:3px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  margin:1rem auto 1.4rem;
+}
+p{font-size:1rem;line-height:1.7;opacity:.9;margin-bottom:1rem;}
+.return-date{font-weight:600;color:var(--accent);margin-bottom:1.5rem;}
+
+/* BOUTON */
+.discord-btn{
+  background:linear-gradient(135deg,#5865F2,#4752c4);
+  color:#fff;
+  padding:.8rem 1.6rem;
+  border-radius:12px;
+  text-decoration:none;
+  display:inline-block;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+  transition:.2s;
+}
+.discord-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 26px rgba(0,0,0,.45);
+}
+
+/* FOOTER */
+footer{
+  margin-top:2.2rem;
+  font-size:.8rem;
+  opacity:.7;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+  .wrapper{padding:2rem 1.6rem;}
+  h1{font-size:1.7rem;}
+  h2{font-size:1.1rem;}
+  .discord-btn{width:100%;padding:.8rem 0;}
+}
 </style>
-</head>
 
-<body oncontextmenu="return false;">
-
-<!-- Loader -->
-<div id="loader">
-  <img src="https://i.imgur.com/mXS0oZA.png" alt="Logo Brigade Municipale">
-</div>
-
-<canvas id="snowCanvas"></canvas>
-
-<div class="festive-banner">
-Joyeuses Fêtes – Brigade Municipale de Paris - FRRP
-</div>
-
-<header>
-  <div class="logo"><img src="https://i.imgur.com/mXS0oZA.png" alt="Logo Brigade Municipale"></div>
-  <div class="top-actions"><button class="action-btn" onclick="toggleTheme()">Thème officiel</button></div>
-  <h1>Recrutement – Brigade Municipale</h1>
-  <p>Servir et protéger la République Française</p>
-</header>
-
-<main>
-<section>
-<h2>Présentation générale</h2>
-<p>La <strong>Brigade Municipale de Paris</strong> recrute des <strong>hommes et des femmes volontaires</strong> souhaitant s'engager au service de la population et de la République Française.
-<br><br>
-Aucun quota précis d'heures de service n'est imposé. Un <strong>minimum d'investissement personnel</strong> est néanmoins requis afin d'assurer un service sérieux, professionnel et cohérent.
-</p>
-</section>
-
-<section>
-<h2>Postes disponibles</h2>
-<div id="available-container">
-  <span>❯</span> <span id="available">8</span> places ouvertes ❮
-</div>
-</section>
-
-<section class="stats">
-<div class="stat-card"><h3>+35</h3><p>Membres engagés</p></div>
-<div class="stat-card"><h3>50</h3><p>Interventions / Jours : Moyenne 50</p></div>
-<div class="stat-card"><h3>8</h3><p>Places restantes</p></div>
-</section>
-
-<section>
-<h2>Nos missions</h2>
-<ul>
-<li>Maintien de l’ordre public : surveillance de la voie publique et prévention des troubles.</li>
-<li>Sécurité des personnes et des biens : patrouilles, sécurisation d’événements et protection des infrastructures.</li>
-<li>Prévention et proximité : dialogue avec les citoyens et actions de sensibilisation.</li>
-<li>Assistance à la population : aide aux personnes en difficulté et participation aux dispositifs de secours.</li>
-<li>Coopération interservices : coordination avec les services et forces de sécurité compétentes.</li>
-</ul>
-</section>
-
-<section>
-<h2>Spécialités opérationnelles</h2>
-<ul>
-<li>Section de Recherche Municipale (SRM)</li>
-<li>Brigade Motorisée (BMO)</li>
-<li>Groupe de Soutien et d'Intervention (GSI)</li>
-<li>Unité Cynophile (Cyno)</li>
-<li>Brigade Nautique (Maritime)</li>
-</ul>
-</section>
-
-<section>
-<h2>Qualifications judiciaires</h2>
-<ul>
-<li>OPJ – Officier de Police Judiciaire</li>
-<li>APJ – Agent de Police Judiciaire</li>
-<li>APJA – Agent de Police Judiciaire Adjoint</li>
-</ul>
-</section>
-
-<section>
-<h2>Unités et pôles internes</h2>
-<ul>
-<li>Pôle de Recrutement</li>
-<li>Pôle du Tutorat</li>
-<li>Membre de l'Amical</li>
-</ul>
-</section>
-
-<section>
-<h2>Avantages</h2>
-<ul>
-<li>Primes d'entrée attractives</li>
-<li>Garage personnel au poste de police</li>
-<li>Salaire attractif avec prime mensuelle</li>
-<li>Véhicule civil fourni pour les trajets domicile / travail</li>
-<li>Missions variées et enrichissantes</li>
-<li>Esprit d'équipe et ambiance familiale</li>
-<li>Évolution de carrière rapide</li>
-</ul>
-</section>
-
-<div class="discord">
-<a href="https://discord.gg/b9WmP9FZsE" target="_blank"><button class="discord-btn">❯❯ Postule ici ❮❮</button></a>
-</div>
-</main>
-
-<footer>
-© 2025 – Brigade Municipale – Recrutement – FRRP FiveM
-</footer>
-
+<!-- 🔒 PROTECTIONS IDENTIQUES VERSION NOËL -->
 <script>
-// Loader 2,5s
-window.addEventListener("load", () => { setTimeout(()=>{ document.getElementById("loader").style.display="none"; }, 2500); });
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
 
-// Toggle thème
-function toggleTheme() { document.body.classList.toggle("light"); }
-
-// Blocage raccourcis
-document.addEventListener("keydown", e => { if(e.ctrlKey && ["u","s","c"].includes(e.key.toLowerCase())) e.preventDefault(); });
-
-// Snow
-const canvas = document.getElementById("snowCanvas");
-const ctx = canvas.getContext("2d");
-let w,h;
-const flakes = [];
-function resize(){ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; }
-window.addEventListener("resize", resize); resize();
-for(let i=0;i<160;i++){ flakes.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*2.5+1, d:Math.random()*1.2+0.6}); }
-function snow(){
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle="rgba(255,255,255,0.75)";
-  ctx.beginPath();
-  flakes.forEach(f=>{ ctx.moveTo(f.x,f.y); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); });
-  ctx.fill();
-  flakes.forEach(f=>{ f.y+=f.d; f.x+=Math.sin(f.y*0.01)*0.6; if(f.y>h){ f.y=-5; f.x=Math.random()*w; } });
-  requestAnimationFrame(snow);
-}
-snow();
-
-// Fade-in sections
-const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add("visible"); } }); },{ threshold:0.2 });
-document.querySelectorAll("section").forEach(s=>observer.observe(s));
+document.addEventListener('keydown', function(e){
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && e.key.toLowerCase() === "u") ||
+    (e.ctrlKey && e.key.toLowerCase() === "s") ||
+    (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i")
+  ) {
+    e.preventDefault();
+    return false;
+  }
+});
 </script>
+
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="logo">
+    <img src="https://i.imgur.com/mXS0oZA.png" alt="Logo Brigade Municipale">
+  </div>
+
+  <h1>Brigade Municipale</h1>
+  <div class="divider"></div>
+  <h2>Site actuellement en maintenance</h2>
+
+  <p>
+    Des opérations techniques sont en cours afin d’améliorer
+    la stabilité et les fonctionnalités du site.
+    <br><br>
+    Merci de votre compréhension.
+  </p>
+
+  <p class="return-date">
+    Retour estimé : <strong>17 Décembre 2025 à 14h30</strong>
+  </p>
+
+  <a class="discord-btn" href="https://discord.gg/b9WmP9FZsE" target="_blank">
+    Rejoindre notre Discord
+  </a>
+
+  <footer>
+    © 2025 – Brigade Municipale – Recrutement – FRRP FiveM
+  </footer>
+</div>
 
 </body>
 </html>
